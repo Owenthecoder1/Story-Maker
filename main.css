@@ -1,0 +1,12 @@
+body{
+	background-color:blue;
+}
+h1,h2{
+	text-align:center;
+	font-family:sans-serif;
+	color:white;
+}
+input,textarea{
+	margin:auto;
+	display:block;
+}
