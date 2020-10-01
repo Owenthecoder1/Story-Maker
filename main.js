@@ -6,7 +6,7 @@ function confunc(){
 	}else{
 		alert("Success")
 		//var db = new AWS.DynamoDB()
-		console.log(title)
+		window.location.href="https://owenthecoder1.github.io/Story-Maker/index.html"
 	}
 }
 var con = document.getElementById("bCon")
