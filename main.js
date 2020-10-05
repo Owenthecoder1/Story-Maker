@@ -6,7 +6,6 @@ function confunc(){
 	if(title == "" || text == ""){
 		alert("Fail:nothing here")
 	}else{
-		alert("Success")
 		pushDynamo(title)
 	}
 }
@@ -28,8 +27,9 @@ function pushDynamo (title){
 	db.putItem(params, function(e,r){
 		if(e){
 			console.log(e)
+			alert("Error")
 		} else {
-			console.log(r)
+			alert("Success!")
 
 			window.location.href="index.html"
 		}
