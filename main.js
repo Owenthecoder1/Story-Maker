@@ -1,4 +1,6 @@
 
+AWS.config.region = "us-east-2"
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:"us-east-2:67dfd5c2-f8ee-4c6c-8334-9f05de511681"})
 
 function confunc(){
 	var text = document.getElementById("textbox2").value
@@ -6,12 +8,10 @@ function confunc(){
 	if(title == "" || text == ""){
 		alert("Fail:nothing here")
 	}else{
-		pushDynamo(title)
+		pushDynamo(title, text)
 	}
 }
-function pushDynamo (title){
-	AWS.config.region = "us-east-2"
-	AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:"us-east-2:67dfd5c2-f8ee-4c6c-8334-9f05de511681"})
+function pushDynamo (title, text){
 	var db = new AWS.DynamoDB({region:"us-east-2"})
 	db.config.credentials = AWS.config.credentials
 
@@ -29,11 +29,21 @@ function pushDynamo (title){
 			console.log(e)
 			alert("Error")
 		} else {
-			alert("Success!")
-
-			window.location.href="index.html"
+			writeS3(text, title)
 		}
 	})
+}
+
+function writeS3(text, title){
+	var s3 = new AWS.S3({params: {Bucket:"storytext"}})
+	s3.putObject({ Key: encodeURIComponent(title), Body: text }, function(err, data) {
+      if (err) {
+        console.log("S3 Error", err)
+      } else {
+      	alert("Successfully saved!")
+		window.location.href="index.html"
+      }
+    });
 }
 
 function uuidv4() {
