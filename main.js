@@ -1,6 +1,7 @@
 
 AWS.config.region = "us-east-2"
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:"us-east-2:67dfd5c2-f8ee-4c6c-8334-9f05de511681"})
+var saveInProgress 
 
 function confunc(){
 	var text = document.getElementById("textbox2").value
@@ -12,6 +13,10 @@ function confunc(){
 	}
 }
 function pushDynamo (title, text){
+	if(saveInProgress){
+		return
+	}
+	saveInProgress = true
 	var db = new AWS.DynamoDB({region:"us-east-2"})
 	db.config.credentials = AWS.config.credentials
 
@@ -41,6 +46,7 @@ function writeS3(text, title){
         console.log("S3 Error", err)
       } else {
       	alert("Successfully saved!")
+      	saveInProgress = false
 		window.location.href="index.html"
       }
     });
